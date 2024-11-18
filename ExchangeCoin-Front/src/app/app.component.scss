@@ -1,0 +1,9 @@
+@use "../assets/styles/variables.scss";
+
+.backplace {
+  background: linear-gradient(
+    135deg,
+    variables.$submain-color,
+    variables.$main-color
+  );
+}

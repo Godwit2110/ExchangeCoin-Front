@@ -1,0 +1,97 @@
+@use "../../../assets/styles/variables.scss";
+@use "../../../assets/styles/forms.scss";
+
+#container {
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    variables.$submain-color,
+    variables.$main-color
+  );
+  background-position: center;
+  background-size: cover;
+}
+
+.login-main {
+  text-align: center;
+  max-width: 500px;
+  min-height: 80px;
+  gap: 20px;
+  margin: 50px;
+  box-shadow: 3px 3px variables.$text-color;
+  border: solid 2px variables.$text-color;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: variables.$main-color-light;
+}
+
+.login-form {
+  text-align: center;
+  max-width: 500px;
+  min-height: 80px;
+  gap: 20px;
+  margin: 50px;
+  box-shadow: 3px 3px variables.$text-color;
+  border: solid 2px variables.$text-color;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: variables.$main-color-light;
+}
+
+font,
+input,
+button {
+  font-size: 20px;
+  margin: 5px;
+}
+
+.flex-column {
+  display: flex;
+  gap: 4px;
+}
+
+.flex-column,
+label {
+  color: variables.$text-color-light;
+  font-size: 20px;
+  text-shadow: 1px 1px 5px variables.$text-color;
+}
+
+input {
+  border-radius: 10px;
+  box-shadow: 3px 3px variables.$text-color;
+  background-color: variables.$main-color-light;
+}
+
+button {
+  padding: 10px;
+  color: variables.$main-color-light;
+  text-shadow: 2px 2px 5px variables.$text-color;
+  border-radius: 20px;
+  box-shadow: 5px 5px variables.$text-color;
+  background-color: variables.$main-color;
+  &[disabled] {
+    background-color: grey;
+    cursor: not-allowed;
+  }
+}
+
+button:hover:not([disabled]) {
+  background-color: variables.$main-color-darker;
+  cursor: pointer;
+  transition: 1s;
+}
+
+.error {
+  font-size: 15px;
+  color: red;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.hidden {
+  display: none;
+}

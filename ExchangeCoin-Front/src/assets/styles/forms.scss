@@ -1,11 +1,15 @@
 @use "./variables.scss";
 
 #container {
-  height: 90vh;
+  height: 95vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1a1a1a, #006400);
+  background: linear-gradient(
+    135deg,
+    variables.$submain-color,
+    variables.$main-color
+  );
   background-position: center;
   background-size: cover;
 }
@@ -20,7 +24,11 @@ main {
   border: solid 2px black;
   padding: 30px;
   border-radius: 15px;
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZpORo1Rfp6EW3IFjOQJpS8a0HfgNbYMZx5w&usqp=CAU");
+  background: linear-gradient(
+    135deg,
+    variables.$main-color-light,
+    variables.$main-color
+  );
   background-position: center;
   background-size: cover;
 }
@@ -35,7 +43,11 @@ form {
   border: solid 2px black;
   padding: 30px;
   border-radius: 15px;
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZpORo1Rfp6EW3IFjOQJpS8a0HfgNbYMZx5w&usqp=CAU");
+  background: linear-gradient(
+    135deg,
+    variables.$main-color-light,
+    variables.$main-color
+  );
   background-position: center;
   background-size: cover;
 }
@@ -53,7 +65,7 @@ button {
 
 .flex-column,
 label {
-  color: variables.$color-texto-claro;
+  color: variables.$text-color-light;
   font-size: 20px;
   text-shadow: 1px 1px 5px black;
 }
@@ -61,16 +73,16 @@ label {
 input {
   border-radius: 10px;
   box-shadow: 3px 3px black;
-  background-color: variables.$color-secundario-claro;
+  background-color: variables.$submain-color;
 }
 
 button {
   padding: 10px;
-  color: variables.$color-secundario-claro;
+  color: variables.$submain-color;
   text-shadow: 2px 2px 5px black;
   border-radius: 20px;
   box-shadow: 5px 5px black;
-  background-color: variables.$color-principal-claro;
+  background-color: variables.$main-color-light;
   &[disabled] {
     background-color: grey;
     cursor: not-allowed;
@@ -78,7 +90,7 @@ button {
 }
 
 button:hover:not[disabled] {
-  background-color: variables.$color-principal;
+  background-color: variables.$main-color-light;
   cursor: pointer;
   transition: 1s;
 }
