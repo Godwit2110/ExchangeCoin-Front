@@ -17,19 +17,17 @@ const routes: Routes = [
       import('./pages/register/register.module').then((m) => m.RegisterModule),
   },
   {
-    path: 'convertir',
+    path: 'exchange',
     canActivate: [not_loguser],
     loadChildren: () =>
-      import('./pages/convertir/convertir.module').then(
-        (m) => m.ConvertirModule
-      ),
+      import('./pages/exchange/exchange.module').then((m) => m.ExchangeModule),
   },
   {
-    path: 'suscripciones',
+    path: 'subscription',
     canActivate: [not_loguser],
     loadChildren: () =>
-      import('./pages/suscripciones/suscripciones.module').then(
-        (m) => m.SuscripcionesModule
+      import('./pages/subscription/subscription.module').then(
+        (m) => m.SubscriptionModule
       ),
   },
   {
@@ -42,9 +40,7 @@ const routes: Routes = [
     path: 'admin/Monedas',
     canActivate: [not_loguser],
     loadChildren: () =>
-      import('./pages/admin/monedas/monedas.module').then(
-        (m) => m.MonedasModule
-      ),
+      import('./pages/admin/coins/coins.module').then((m) => m.CoinsModule),
   },
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },

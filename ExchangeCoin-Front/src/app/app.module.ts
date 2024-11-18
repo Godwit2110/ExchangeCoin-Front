@@ -9,6 +9,7 @@ import { UsersComponent } from './pages/admin/users/users.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ExchangeComponent } from './pages/exchange/exchange.component';
+import { NewCoinComponent } from './components/new-coin/new-coin.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ExchangeComponent } from './pages/exchange/exchange.component';
     UsersComponent,
     LoginComponent,
     RegisterComponent,
-    ExchangeComponent
+    ExchangeComponent,
+    NewCoinComponent
   ],
   imports: [
     BrowserModule,
