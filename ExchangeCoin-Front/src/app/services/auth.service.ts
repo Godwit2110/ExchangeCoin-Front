@@ -15,7 +15,7 @@ export class AuthService {
 
   async login(loginData: LoginData) {
     try {
-      const res = await fetch(API + 'autentic/authenticate', {
+      const res = await fetch(API + 'auth/authenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
