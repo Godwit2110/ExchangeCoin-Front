@@ -2,54 +2,49 @@
   <div class="flex-column">
     <form #registerForm="ngForm" (ngSubmit)="Exchange()" class="flex-column">
       <p>Insert the coins and the amount you want to exchange</p>
-      <label for="cointochangeName" class="sr-only">Coin To Change</label>
-      <input
-        type="text"
-        list="list"
+
+      <label for="cointochangeName">Coin To Change</label>
+      <select
+        id="cointochangeName"
         name="cointochangeName"
-        id="CoinToChange"
-        placeholder="Coin To Change"
         [(ngModel)]="ExchangeData.cointochangeName"
         #MonedaOrigen="ngModel"
-      />
+        required
+      >
+        <option *ngFor="let coin of CoinList" [value]="coin">{{ coin }}</option>
+      </select>
 
-      <label for="MonedaDestino" class="sr-only">Changing Coin</label>
-      <input
-        type="text"
-        list="list"
-        name="CoinChanged"
-        id="CoinChanged"
-        placeholder="Changing Coin"
-        autocomplete="Changing Coin"
-        required="true"
+      <label for="coinchangedName">Changing Coin</label>
+      <select
+        id="coinchangedName"
+        name="coinchangedName"
         [(ngModel)]="ExchangeData.coinchangedName"
         #MonedaDestino="ngModel"
-      />
+        required
+      >
+        <option *ngFor="let coin of CoinList" [value]="coin">{{ coin }}</option>
+      </select>
 
-      <label for="amount" class="sr-only">Amount</label>
+      <label for="amount">Amount</label>
       <input
         type="number"
         name="amount"
         id="amount"
-        placeholder="amount"
+        placeholder="Amount"
         autocomplete="amount"
         [(ngModel)]="ExchangeData.amount"
         #amount="ngModel"
+        required
       />
 
       <button type="submit" [disabled]="registerForm.invalid">Exchange</button>
-
-      <datalist id="list">
-        <option *ngFor="let coin of CoinList" [value]="coin"></option>
-      </datalist>
 
       <p *ngIf="ResultData.result">The Result is: {{ ResultData.result }}</p>
     </form>
     <div class="remain-box">
       <p>Your Actual Subscription is: {{ ActiveSubscription.name }}</p>
-
       <div *ngIf="TrysRemaining < 100">
-        <p *ngIf="TrysRemaining >= 0">You Have {{ TrysRemaining }} Trys left</p>
+        <p *ngIf="TrysRemaining >= 0">You Have {{ TrysRemaining }} trys left</p>
         <p *ngIf="TrysRemaining < 0">You Reach the Limit.</p>
       </div>
       <a [routerLink]="['/subscription']" routerLinkActive="router-link-active">

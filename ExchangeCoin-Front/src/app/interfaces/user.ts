@@ -16,7 +16,7 @@ export interface UserAdmin {
   username: string;
   email: string;
   role: string;
-  SubsId: number;
+  subsId: number;
 }
 
 export interface User {

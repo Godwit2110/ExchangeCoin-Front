@@ -30,10 +30,12 @@
       }
 
       label {
-        display: none;
+        color: $text-color-light;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
       }
 
-      input[type="text"],
+      select,
       input[type="number"] {
         padding: 0.5rem;
         font-size: 1rem;
@@ -67,12 +69,6 @@
         }
       }
 
-      datalist {
-        option {
-          color: $text-color;
-        }
-      }
-
       p {
         font-size: 1rem;
         color: $text-color-light;
@@ -82,13 +78,18 @@
 
     .remain-box {
       background-color: $main-color-darker;
-      padding: 1rem;
+      padding: 0.5rem;
       border-radius: 8px;
       color: $text-color-light;
+      border: 2px solid black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
       p {
         margin-bottom: 0.5rem;
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
 
       a {

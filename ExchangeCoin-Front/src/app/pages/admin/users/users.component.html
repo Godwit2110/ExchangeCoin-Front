@@ -1,1 +1,14 @@
-<p>users works!</p>
+<p class="titulo1">Lista de Usuarios</p>
+<div class="titulos">
+  <p>Username</p>
+  <p>Email</p>
+  <p>Role</p>
+  <p>Subscription Id</p>
+</div>
+
+<div class="Columna" *ngFor="let UserView of Users">
+  <p>{{ UserView.username }}</p>
+  <p>{{ UserView.email }}</p>
+  <p>{{ UserView.role }}</p>
+  <p>{{ UserView.subsId }}</p>
+</div>
