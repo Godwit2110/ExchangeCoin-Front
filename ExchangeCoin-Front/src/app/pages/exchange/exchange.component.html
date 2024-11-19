@@ -35,8 +35,15 @@
         [(ngModel)]="ExchangeData.amount"
         #amount="ngModel"
         required
+        min="1"
       />
-
+      <div
+        *ngIf="amount.invalid && (amount.dirty || amount.touched)"
+        class="error"
+      >
+        <div *ngIf="amount.errors?.['required']">Amount is required.</div>
+        <div *ngIf="amount.errors?.['min']">Amount must be greater than 1.</div>
+      </div>
       <button type="submit" [disabled]="registerForm.invalid">Exchange</button>
 
       <p *ngIf="ResultData.result">The Result is: {{ ResultData.result }}</p>
