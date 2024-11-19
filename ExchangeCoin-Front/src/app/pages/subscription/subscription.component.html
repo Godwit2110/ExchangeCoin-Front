@@ -1,1 +1,24 @@
-<p>subscription works!</p>
+<div id="container">
+  <main>
+    <div class="flex-column">
+      <p>Select a Subscription</p>
+      <label for="Sub-1" class="sr-only"
+        ><div>Free Sub</div>
+        <p>5 Trys avaliable with this Subscription</p></label
+      >
+      <button (click)="ChangeSubscription(1)">Select</button>
+
+      <label for="Sub-2" class="sr-only"
+        ><div>Trial Sub</div>
+        <p>10 Trys avaliable with this Subscription</p></label
+      >
+      <button (click)="ChangeSubscription(2)">Select</button>
+
+      <label for="Sub-3" class="sr-only"
+        ><div>Pro Sub</div>
+        <p>Unlimitied Trys with this Subscription</p></label
+      >
+      <button (click)="ChangeSubscription(3)">Select</button>
+    </div>
+  </main>
+</div>

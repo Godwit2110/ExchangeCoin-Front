@@ -1,9 +1,36 @@
-@use "../assets/styles/variables.scss";
+@use "../assets/styles/variables.scss" as *;
 
+div {
+  min-height: 10vh;
+  background: $submain-color;
+  display: flex;
+  justify-content: left;
+  text-align: center;
+}
 .backplace {
-  background: linear-gradient(
-    135deg,
-    variables.$submain-color,
-    variables.$main-color
-  );
+  background: $submain-color;
+
+  main {
+    min-height: 100vh;
+  }
+
+  button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: $text-color-light;
+    background-color: $main-color-darker;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $main-color-light;
+    }
+
+    &:focus {
+      outline: 2px solid $main-color-light;
+    }
+  }
 }
