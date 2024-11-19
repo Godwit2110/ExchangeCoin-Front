@@ -1,12 +1,17 @@
-<p class="titulo1">Lista de Usuarios</p>
-<div class="titulos">
+<div class="admin-button-container">
+  <button [routerLink]="['/admin/coins']" class="admin-button">
+    Manage Coins
+  </button>
+</div>
+<p class="title1">Users List</p>
+<div class="titles">
   <p>Username</p>
   <p>Email</p>
   <p>Role</p>
   <p>Subscription Id</p>
 </div>
 
-<div class="Columna" *ngFor="let UserView of Users">
+<div class="Column" *ngFor="let UserView of Users">
   <p>{{ UserView.username }}</p>
   <p>{{ UserView.email }}</p>
   <p>{{ UserView.role }}</p>

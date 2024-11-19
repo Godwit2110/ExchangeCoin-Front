@@ -1,1 +1,36 @@
-<p>coins works!</p>
+<div class="admin-button-container">
+  <button class="add-c-buttom" (click)="NewCoindialog.showModal()">
+    Add Coin
+  </button>
+  <button [routerLink]="['/admin/users']" class="admin-button">
+    Manage Users
+  </button>
+</div>
+
+<p class="title1">Coin List</p>
+
+<dialog method="dialog" #NewCoindialog>
+  <app-new-coin (close)="NewCoindialog.close()"> </app-new-coin>
+</dialog>
+
+<div class="titles">
+  <p>ID</p>
+  <p>Nombre</p>
+  <p>Sigla</p>
+  <p>Valor</p>
+  <p></p>
+</div>
+
+<div *ngFor="let CoinView of coins" class="Column">
+  <p>{{ CoinView.id }}</p>
+  <p>{{ CoinView.name }}</p>
+  <p>{{ CoinView.denomination }}</p>
+  <p>{{ CoinView.value }}</p>
+  <div class="box">
+    <button (click)="Updatemodal.showModal()">Edit</button>
+  </div>
+  <dialog method="modal" #Updatemodal>
+    <app-new-coin (close)="Updatemodal.close()" [Coin]="CoinView">
+    </app-new-coin>
+  </dialog>
+</div>

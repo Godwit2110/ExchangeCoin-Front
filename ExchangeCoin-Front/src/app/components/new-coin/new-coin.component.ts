@@ -9,7 +9,7 @@ import { CoinForAdmin } from 'src/app/interfaces/coin';
 })
 export class NewCoinComponent {
   ApiService = inject(ApiService);
-  @Output() cerrar = new EventEmitter();
+  @Output() close = new EventEmitter();
   @Input() Coin: CoinForAdmin = {
     id: 0,
     name: '',
@@ -19,12 +19,12 @@ export class NewCoinComponent {
 
   async onSubmit() {
     if (this.Coin.id) this.updateCoin();
-    else this.updateCoin();
+    else this.createCoin();
   }
 
   async updateCoin() {
     const res = await this.ApiService.updateCoin(this.Coin);
-    this.cerrar.emit();
+    this.close.emit();
     if (res) {
       console.log('Update successful');
     } else {
@@ -34,7 +34,7 @@ export class NewCoinComponent {
 
   async createCoin() {
     const res = await this.ApiService.createCoin(this.Coin);
-    this.cerrar.emit();
+    this.close.emit();
     if (res) {
       console.log('Coin Added');
     } else {

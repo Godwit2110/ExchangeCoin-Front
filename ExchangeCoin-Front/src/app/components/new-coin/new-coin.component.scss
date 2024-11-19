@@ -1,0 +1,81 @@
+@use "../../../assets/styles/variables.scss" as *;
+form {
+  background-color: $text-color-light;
+  color: $text-color;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    text-align: center;
+    color: $main-color-darker;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .div-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $main-color-darker;
+    }
+
+    input {
+      padding: 0.8rem;
+      border: 1px solid $main-color-light;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: $text-color;
+      outline: none;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: $main-color-darker;
+        box-shadow: 0 0 4px $main-color-light;
+      }
+    }
+
+    button {
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:first-of-type {
+        background-color: $main-color;
+        color: $text-color-light;
+
+        &:hover {
+          background-color: $main-color-darker;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      &:last-of-type {
+        background-color: #d9534f; // Cancel button in red
+        color: $text-color-light;
+
+        &:hover {
+          background-color: darken(#d9534f, 10%);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+    }
+  }
+}

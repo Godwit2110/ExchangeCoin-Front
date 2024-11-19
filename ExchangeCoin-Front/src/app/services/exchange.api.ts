@@ -139,7 +139,7 @@ export class ExchangeService extends ApiService {
   }
 
   async GetCoinsForAdmin(): Promise<Array<CoinForAdmin>> {
-    const url = API + 'Moneda/Get-Coins-For-Admin';
+    const url = API + 'Coin/GetCoinsForAdmin';
     const token = this.auth.token();
 
     const RequestOptions: RequestInit = {

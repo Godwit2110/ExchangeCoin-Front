@@ -1,1 +1,24 @@
-<p>new-coin works!</p>
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+  <h2>{{ Coin.id ? "Edit Coin" : "Create Coin" }}</h2>
+  <div>
+    <div class="div-container">
+      <label for="">Name</label>
+      <input type="text" [(ngModel)]="Coin.name" name="nombre" />
+    </div>
+
+    <div class="div-container">
+      <label for="">Denomination</label>
+      <input type="text" [(ngModel)]="Coin.denomination" name="denomination" />
+    </div>
+
+    <div class="div-container">
+      <label for="">Value</label>
+      <input type="number" [(ngModel)]="Coin.value" name="value" />
+    </div>
+
+    <div class="div-container">
+      <button type="submit">{{ Coin.id ? "Edit" : "Create" }}</button>
+      <button type="button" (click)="close.emit()">Cancel</button>
+    </div>
+  </div>
+</form>
