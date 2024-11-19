@@ -1,20 +1,19 @@
 @use "../assets/styles/variables.scss" as *;
 
 div {
-  background: $submain-color;
   display: flex;
   justify-content: left;
   text-align: center;
 }
 
 h1 {
-  color: $text-color-light;
   font-size: 2.5rem;
   margin: 1rem;
+  color: $text-color-light;
+  font-style: italic;
 }
 .backplace {
-  background: $submain-color;
-
+  background: linear-gradient(135deg, green, white);
   main {
     min-height: 100vh;
   }
