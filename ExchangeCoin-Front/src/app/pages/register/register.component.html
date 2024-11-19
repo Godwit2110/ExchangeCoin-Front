@@ -1,1 +1,37 @@
-<p>register works!</p>
+<!-- register.component.html -->
+<div id="container">
+  <div class="register-main">
+    <h1 class="register-title">Register</h1>
+    <form class="register-form" (ngSubmit)="register()">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        [(ngModel)]="registerData.Username"
+        required
+      />
+
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="registerData.Email"
+        required
+      />
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="registerData.Password"
+        required
+      />
+
+      <button type="submit" class="register-button">Register</button>
+    </form>
+    <p>Already have an account? <a routerLink="/login">Login here</a></p>
+  </div>
+</div>

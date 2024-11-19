@@ -7,9 +7,9 @@ export interface RegisterData {
 }
 
 export interface UserForExchange {
-  Username: string;
-  Trys: number;
-  Role: string;
+  username: string;
+  trys: number;
+  role: string;
 }
 
 export interface UserAdmin {
@@ -20,13 +20,13 @@ export interface UserAdmin {
 }
 
 export interface User {
-  UserName: string;
+  username: string;
   Email: string;
   Password: string;
-  Trys: number;
-  Role: number;
+  trys: number;
+  role: number;
   SubsId: number;
-  Suscripcion: Subscription;
+  Subscription: Subscription;
 }
 
 export interface LoginData {

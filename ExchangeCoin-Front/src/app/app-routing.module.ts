@@ -10,11 +10,11 @@ import { NewCoinComponent } from './components/new-coin/new-coin.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'subscription', component: SubscriptionComponent },
-  { path: 'admin/coins', component: CoinsComponent },
-  { path: 'admin/users', component: UsersComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'subscription', component: SubscriptionComponent },
   { path: 'exchange', component: ExchangeComponent },
+  { path: 'admin/users', component: UsersComponent },
+  { path: 'admin/coins', component: CoinsComponent },
   { path: 'new-coin', component: NewCoinComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];

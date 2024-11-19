@@ -1,5 +1,5 @@
 export interface Subscription {
-  Id: number;
-  Name: string;
-  MaxTrys: number;
+  id: number;
+  name: string;
+  maxTrys: number;
 }

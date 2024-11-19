@@ -77,15 +77,14 @@ export class ExchangeService extends ApiService {
     return await data;
   }
 
-  async GetMoneda() {
-    const url = API + 'Moneda/Get-Lista-Monedas';
+  async GetCoins() {
+    const url = API + 'Coin/GetCoinList';
     const token = this.auth.token();
 
     const RequestOptions: RequestInit = {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token,
-        // otras cabeceras si es necesario
       },
     };
 
