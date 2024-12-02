@@ -32,7 +32,7 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
-    return await data;
+    return data;
   }
 
   async GetSubscription(): Promise<Subscription> {
@@ -53,7 +53,7 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
-    return await data;
+    return data;
   }
 
   async GetLoggedUser() {
@@ -74,7 +74,7 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
-    return await data;
+    return data;
   }
 
   async GetCoins() {
@@ -95,7 +95,7 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
-    return await data;
+    return data;
   }
   async ChangeSubscription(id: number): Promise<User> {
     const url = API + 'User/Change-Subscription?idSubs=' + id;
@@ -115,7 +115,7 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
-    return await data;
+    return data;
   }
   async GetUsersForAdmin(): Promise<Array<UserAdmin>> {
     const url = API + 'User/Get-User-For-Admin';
@@ -135,7 +135,7 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
-    return await data;
+    return data;
   }
 
   async GetCoinsForAdmin(): Promise<Array<CoinForAdmin>> {
@@ -156,6 +156,6 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
-    return await data;
+    return data;
   }
 }
