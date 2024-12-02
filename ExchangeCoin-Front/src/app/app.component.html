@@ -1,10 +1,15 @@
 <router-outlet>
   <div class="backplace">
-    <div>
+    <div class="div1">
       <button *ngIf="showLogoutButton()" (click)="logout()">Logout</button>
-    </div>
-    <div>
       <h1>ExchangeCoin Simulator</h1>
+      <button
+        class="div2"
+        *ngIf="showAdminButton()"
+        (click)="navigateToAdminPanel()"
+      >
+        Go to Admin Panel
+      </button>
     </div>
   </div>
 </router-outlet>

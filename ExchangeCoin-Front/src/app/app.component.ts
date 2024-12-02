@@ -16,7 +16,22 @@ export class AppComponent extends ApiService {
     return currentUrl !== '/login' && currentUrl !== '/register';
   }
 
+  showAdminButton(): boolean {
+    const currentUrl = this.router.url;
+    return (
+      currentUrl !== '/admin/users' &&
+      currentUrl !== '/admin/coins' &&
+      currentUrl !== '/subscriptions' &&
+      currentUrl !== '/login' &&
+      currentUrl !== '/register'
+    );
+  }
+
   logout() {
     this.auth.logOut();
+  }
+
+  navigateToAdminPanel() {
+    this.router.navigate(['/admin/users']);
   }
 }

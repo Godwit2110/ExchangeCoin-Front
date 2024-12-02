@@ -1,9 +1,12 @@
 @use "../assets/styles/variables.scss" as *;
 
-div {
+.div1 {
   display: flex;
-  justify-content: left;
   text-align: center;
+}
+
+.div2 {
+  padding-left: 1rem;
 }
 
 h1 {

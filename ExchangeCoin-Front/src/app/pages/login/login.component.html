@@ -2,7 +2,20 @@
 <div id="container">
   <div class="login-main">
     <h1 class="login-title">Login</h1>
-    <form class="login-form" (ngSubmit)="login()">
+
+    <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+      <!-- Alert Message -->
+      <div
+        *ngIf="alertMessage"
+        [ngClass]="{
+          'alert-success': alertType === 'success',
+          'alert-error': alertType === 'error'
+        }"
+        class="alert"
+      >
+        {{ alertMessage }}
+      </div>
+
       <label for="username">Username</label>
       <input
         type="text"
@@ -10,7 +23,14 @@
         name="username"
         [(ngModel)]="loginData.name"
         required
+        #username="ngModel"
       />
+      <div
+        *ngIf="username.invalid && (username.dirty || username.touched)"
+        class="error"
+      >
+        Username is required.
+      </div>
 
       <label for="password">Password</label>
       <input
@@ -19,9 +39,22 @@
         name="password"
         [(ngModel)]="loginData.password"
         required
+        minlength="4"
+        #password="ngModel"
       />
+      <div
+        *ngIf="password.invalid && (password.dirty || password.touched)"
+        class="error"
+      >
+        <div *ngIf="password.errors?.['required']">Password is required.</div>
+        <div *ngIf="password.errors?.['minlength']">
+          Password must be at least 4 characters long.
+        </div>
+      </div>
 
-      <button type="submit" class="login-button">Login</button>
+      <button type="submit" class="login-button" [disabled]="loginForm.invalid">
+        Login
+      </button>
     </form>
     <p>Don't have an account? <a routerLink="/register">Register here</a></p>
   </div>

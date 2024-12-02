@@ -2,7 +2,20 @@
 <div id="container">
   <div class="register-main">
     <h1 class="register-title">Register</h1>
-    <form class="register-form" (ngSubmit)="register()">
+
+    <form class="register-form" (ngSubmit)="register()" #registerForm="ngForm">
+      <!-- Alert Message -->
+      <div
+        *ngIf="alertMessage"
+        [ngClass]="{
+          'alert-success': alertType === 'success',
+          'alert-error': alertType === 'error'
+        }"
+        class="alert"
+      >
+        {{ alertMessage }}
+      </div>
+
       <label for="username">Username</label>
       <input
         type="text"
@@ -10,7 +23,14 @@
         name="username"
         [(ngModel)]="registerData.Username"
         required
+        #username="ngModel"
       />
+      <div
+        *ngIf="username.invalid && (username.dirty || username.touched)"
+        class="error"
+      >
+        Username is required.
+      </div>
 
       <label for="email">Email</label>
       <input
@@ -19,7 +39,18 @@
         name="email"
         [(ngModel)]="registerData.Email"
         required
+        email
+        #email="ngModel"
       />
+      <div
+        *ngIf="email.invalid && (email.dirty || email.touched)"
+        class="error"
+      >
+        <div *ngIf="email.errors?.['required']">Email is required.</div>
+        <div *ngIf="email.errors?.['email']">
+          Please enter a valid email address.
+        </div>
+      </div>
 
       <label for="password">Password</label>
       <input
@@ -28,9 +59,26 @@
         name="password"
         [(ngModel)]="registerData.Password"
         required
+        minlength="4"
+        #password="ngModel"
       />
+      <div
+        *ngIf="password.invalid && (password.dirty || password.touched)"
+        class="error"
+      >
+        <div *ngIf="password.errors?.['required']">Password is required.</div>
+        <div *ngIf="password.errors?.['minlength']">
+          Password must be at least 4 characters long.
+        </div>
+      </div>
 
-      <button type="submit" class="register-button">Register</button>
+      <button
+        type="submit"
+        class="register-button"
+        [disabled]="registerForm.invalid"
+      >
+        Register
+      </button>
     </form>
     <p>Already have an account? <a routerLink="/login">Login here</a></p>
   </div>
