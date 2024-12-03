@@ -46,7 +46,9 @@
       </div>
       <button type="submit" [disabled]="registerForm.invalid">Exchange</button>
 
-      <p *ngIf="ResultData.result">The Result is: {{ ResultData.result }}</p>
+      <p *ngIf="ResultData.result">
+        The Result is: {{ ResultData.result | currency }}
+      </p>
     </form>
     <div class="remain-box">
       <p>Your Actual Subscription is: {{ ActiveSubscription.name }}</p>

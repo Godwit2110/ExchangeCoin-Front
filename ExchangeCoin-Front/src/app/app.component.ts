@@ -1,30 +1,50 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from './services/api.service';
+import { AuthService } from './services/auth.service';
+import { UserForExchange } from './interfaces/user';
+import { ExchangeService } from './services/exchange.api';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends ApiService {
+export class AppComponent {
   title = 'ExchangeCoin-Front';
   router = inject(Router);
+  ExchangeService = inject(ExchangeService);
+  auth = inject(AuthService);
+
+  UserLogged: UserForExchange = {
+    username: '',
+    trys: 2,
+    role: '',
+  };
+
+  ngOnInit() {
+    this.loadLoggedUser();
+    this.router.events.subscribe(() => this.showAdminButton());
+  }
+
+  async loadLoggedUser() {
+    const user = await this.ExchangeService.GetLoggedUser();
+    this.UserLogged = user;
+  }
 
   showLogoutButton(): boolean {
     const currentUrl = this.router.url;
     return currentUrl !== '/login' && currentUrl !== '/register';
   }
 
-  showAdminButton(): boolean {
+  showAdminButtonBoolean = false;
+
+  showAdminButton() {
     const currentUrl = this.router.url;
-    return (
-      currentUrl !== '/admin/users' &&
-      currentUrl !== '/admin/coins' &&
-      currentUrl !== '/subscriptions' &&
+    this.showAdminButtonBoolean =
       currentUrl !== '/login' &&
-      currentUrl !== '/register'
-    );
+      currentUrl !== '/register' &&
+      this.UserLogged &&
+      this.UserLogged.role === 'ADMIN';
   }
 
   logout() {
