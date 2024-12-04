@@ -46,7 +46,8 @@
       </div>
       <button type="submit" [disabled]="registerForm.invalid">Exchange</button>
 
-      <p *ngIf="ResultData.result">
+      <p *ngIf="ResultData.result === -99">Error, No tries available</p>
+      <p *ngIf="ResultData.result !== -99">
         The Result is: {{ ResultData.result | currency }}
       </p>
     </form>

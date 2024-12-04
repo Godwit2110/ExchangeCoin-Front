@@ -9,12 +9,13 @@ import { Admin } from '../interfaces/user';
 })
 export class ApiService {
   auth = inject(AuthService);
+
   constructor() {}
 
   async getAuth(endpoint: string) {
     const res = await fetch(API + endpoint, {
       headers: {
-        Authorization: 'Bearer ' + this.auth.token(),
+        Authorization: 'Bearer ' + this.auth.token,
       },
     });
     if (res.status === 401) {
@@ -22,13 +23,14 @@ export class ApiService {
     }
     return res;
   }
+
   async updateCoin(coin: CoinForAdmin): Promise<boolean> {
     if (!coin.id) return false;
     const res = await fetch(API + 'Coin?CoinId=' + coin.id, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.token(),
+        Authorization: 'Bearer ' + this.auth.token,
       },
       body: JSON.stringify(coin),
     });
@@ -41,25 +43,36 @@ export class ApiService {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.token(),
+        Authorization: 'Bearer ' + this.auth.token,
       },
       body: JSON.stringify(coin),
     });
     return res.ok;
   }
 
-  async Admin(): Promise<Admin> {
-    await Boolean;
+  async Admin(): Promise<boolean> {
+    if (this.auth.isAdmin !== null) {
+      return this.auth.isAdmin ?? false;
+    }
+
     const res = await fetch(API + 'auth', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.token(),
+        Authorization: 'Bearer ' + this.auth.token,
       },
     });
 
+    if (res.status === 401) {
+      this.auth.logOut();
+      throw new Error('No autorizado');
+    }
+
     const data = await res.json();
 
-    return data;
+    // Asegúrate de que la respuesta de la API tenga la propiedad 'admin' como booleano
+    this.auth.isAdmin = data.admin;
+
+    return this.auth.isAdmin ?? false;
   }
 }

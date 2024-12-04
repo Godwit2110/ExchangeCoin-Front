@@ -1,8 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-
 import { API } from '../constants/api';
 import { ExchangeData, ResultData } from '../interfaces/exchange';
-import { AuthService } from './auth.service';
 import { ApiService } from './api.service';
 import { Subscription } from '../interfaces/subscription';
 import { User, UserAdmin } from '../interfaces/user';
@@ -12,9 +10,12 @@ import { CoinForAdmin } from '../interfaces/coin';
   providedIn: 'root',
 })
 export class ExchangeService extends ApiService {
+  private cachedUsersForAdmin: UserAdmin[] | null = null;
+  private cachedCoinsForAdmin: CoinForAdmin[] | null = null;
+
   async Exchange(ExchangeData: ExchangeData): Promise<ResultData> {
     const url = API + 'Coin/Exchange';
-    const token = this.auth.token();
+    const token = this.auth.token;
 
     const RequestOptions: RequestInit = {
       method: 'PUT',
@@ -36,8 +37,16 @@ export class ExchangeService extends ApiService {
   }
 
   async GetSubscription(): Promise<Subscription> {
+    if (this.auth.subscription) {
+      return this.auth.subscription;
+    }
+
     const url = API + 'User/Get-Subscription';
-    const token = this.auth.token();
+    const token = this.auth.token;
+
+    if (!token) {
+      throw new Error('not autorized');
+    }
 
     const RequestOptions: RequestInit = {
       method: 'GET',
@@ -47,18 +56,32 @@ export class ExchangeService extends ApiService {
     };
 
     const res = await fetch(url, RequestOptions);
-    console.log('SerchingName', res);
+    console.log('Serching Subscription', res);
+
+    if (res.status === 401) {
+      this.auth.logOut();
+      throw new Error('not autorized');
+    }
 
     const data = await res.json();
-
     console.log(data);
+
+    this.auth.subscription = data;
 
     return data;
   }
 
-  async GetLoggedUser() {
+  async GetLoggedUser(): Promise<User> {
+    if (this.auth.user) {
+      return this.auth.user;
+    }
+
     const url = API + 'User/Get-Logged-User';
-    const token = this.auth.token();
+    const token = this.auth.token;
+
+    if (!token) {
+      throw new Error('not autorized');
+    }
 
     const RequestOptions: RequestInit = {
       method: 'GET',
@@ -68,18 +91,25 @@ export class ExchangeService extends ApiService {
     };
 
     const res = await fetch(url, RequestOptions);
-    console.log('SerchingName', res);
+
+    if (res.status === 401) {
+      this.auth.logOut();
+      throw new Error('not autorized');
+    }
 
     const data = await res.json();
 
-    console.log(data);
+    this.auth.user = data;
 
     return data;
   }
 
   async GetCoins() {
+    if (this.auth.coins) {
+      return this.auth.coins;
+    }
     const url = API + 'Coin/GetCoinList';
-    const token = this.auth.token();
+    const token = this.auth.token;
 
     const RequestOptions: RequestInit = {
       method: 'GET',
@@ -95,11 +125,13 @@ export class ExchangeService extends ApiService {
 
     console.log(data);
 
+    this.auth.coins = data;
+
     return data;
   }
   async ChangeSubscription(id: number): Promise<User> {
     const url = API + 'User/Change-Subscription?idSubs=' + id;
-    const token = this.auth.token();
+    const token = this.auth.token;
 
     const RequestOptions: RequestInit = {
       method: 'PUT',
@@ -112,50 +144,45 @@ export class ExchangeService extends ApiService {
     console.log('Changing Subscription', res);
 
     const data = await res.json();
-
     console.log(data);
+
+    this.auth.subscription = data.subscription;
 
     return data;
   }
-  async GetUsersForAdmin(): Promise<Array<UserAdmin>> {
-    const url = API + 'User/Get-User-For-Admin';
-    const token = this.auth.token();
+  async GetUsersForAdmin(): Promise<UserAdmin[]> {
+    if (this.cachedUsersForAdmin) {
+      return this.cachedUsersForAdmin;
+    }
 
-    const RequestOptions: RequestInit = {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    };
+    const res = await this.getAuth('User/Get-User-For-Admin');
 
-    const res = await fetch(url, RequestOptions);
-    console.log('SerchingUsers', res);
+    if (res.status === 401) {
+      this.auth.logOut();
+      throw new Error('No autorizado');
+    }
 
-    const data = await res.json();
+    const data: UserAdmin[] = await res.json();
 
-    console.log(data);
-
+    this.cachedUsersForAdmin = data;
     return data;
   }
 
-  async GetCoinsForAdmin(): Promise<Array<CoinForAdmin>> {
-    const url = API + 'Coin/GetCoinsForAdmin';
-    const token = this.auth.token();
+  async GetCoinsForAdmin(): Promise<CoinForAdmin[]> {
+    if (this.cachedCoinsForAdmin) {
+      return this.cachedCoinsForAdmin;
+    }
 
-    const RequestOptions: RequestInit = {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    };
+    const res = await this.getAuth('Coin/GetCoinsForAdmin');
 
-    const res = await fetch(url, RequestOptions);
-    console.log('SerchingCoins', res);
+    if (res.status === 401) {
+      this.auth.logOut();
+      throw new Error('No autorizado');
+    }
 
-    const data = await res.json();
+    const data: CoinForAdmin[] = await res.json();
 
-    console.log(data);
-
+    this.cachedCoinsForAdmin = data;
     return data;
   }
 }

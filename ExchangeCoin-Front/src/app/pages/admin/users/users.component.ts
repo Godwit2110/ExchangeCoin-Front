@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAdmin, Admin } from 'src/app/interfaces/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { ExchangeService } from 'src/app/services/exchange.api';
 
 @Component({
@@ -11,33 +12,30 @@ import { ExchangeService } from 'src/app/services/exchange.api';
 export class UsersComponent implements OnInit {
   ExchangeService = inject(ExchangeService);
 
-  UserForAdmin: UserAdmin = {
-    username: '',
-    email: '',
-    role: '',
-    subsId: 0,
-  };
-
+  auth = inject(AuthService);
   Users: UserAdmin[] = [];
   router = inject(Router);
 
-  access: Admin = {
-    admin: true,
-  };
+  isAdmin: boolean | null = null;
 
   async ngOnInit(): Promise<void> {
     try {
-      this.access = await this.ExchangeService.Admin();
-      console.log(this.access);
+      this.isAdmin = await this.ExchangeService.Admin();
+      console.log('Is Admin:', this.isAdmin);
 
-      if (this.access.admin === false) {
+      if (this.isAdmin === false) {
         this.router.navigate(['/exchange']);
+        return;
       }
     } catch (error) {
       console.error('Error en ngOnInit:', error);
     }
-    this.ExchangeService.GetUsersForAdmin().then((respond) => {
-      this.Users = respond;
-    });
+
+    try {
+      this.Users = await this.ExchangeService.GetUsersForAdmin();
+      console.log('Usuarios para Admin:', this.Users);
+    } catch (error) {
+      console.error('Error al obtener usuarios:', error);
+    }
   }
 }

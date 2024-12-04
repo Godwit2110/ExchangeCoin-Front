@@ -24,7 +24,7 @@ export interface User {
   Email: string;
   Password: string;
   trys: number;
-  role: number;
+  role: string;
   SubsId: number;
   Subscription: Subscription;
 }

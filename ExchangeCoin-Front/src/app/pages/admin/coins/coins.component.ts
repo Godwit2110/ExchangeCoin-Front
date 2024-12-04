@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CoinForAdmin } from 'src/app/interfaces/coin';
-import { Admin } from 'src/app/interfaces/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { ExchangeService } from 'src/app/services/exchange.api';
 
 @Component({
@@ -11,27 +11,30 @@ import { ExchangeService } from 'src/app/services/exchange.api';
 })
 export class CoinsComponent implements OnInit {
   ExchangeService = inject(ExchangeService);
+  auth = inject(AuthService);
   coins: CoinForAdmin[] = [];
   router = inject(Router);
 
-  access: Admin = {
-    admin: true,
-  };
+  isAdmin: boolean | null = null;
 
   async ngOnInit(): Promise<void> {
     try {
-      this.access = await this.ExchangeService.Admin();
-      console.log(this.access);
+      this.isAdmin = await this.ExchangeService.Admin();
+      console.log('Is Admin:', this.isAdmin);
 
-      if (this.access.admin === false) {
+      if (this.isAdmin === false) {
         this.router.navigate(['/exchange']);
+        return;
       }
     } catch (error) {
-      console.error('Error in ngOnInit:', error);
+      console.error('Error en ngOnInit:', error);
     }
 
-    this.ExchangeService.GetCoinsForAdmin().then((Response) => {
-      this.coins = Response;
-    });
+    try {
+      this.coins = await this.ExchangeService.GetCoinsForAdmin();
+      console.log('Coins para Admin:', this.coins);
+    } catch (error) {
+      console.error('Error al obtener coins:', error);
+    }
   }
 }

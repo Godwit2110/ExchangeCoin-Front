@@ -43,6 +43,8 @@ export class AppComponent {
     this.showAdminButtonBoolean =
       currentUrl !== '/login' &&
       currentUrl !== '/register' &&
+      currentUrl !== '/admin/users' &&
+      currentUrl !== '/admin/coins' &&
       this.UserLogged &&
       this.UserLogged.role === 'ADMIN';
   }
