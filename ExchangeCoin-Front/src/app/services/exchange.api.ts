@@ -3,6 +3,7 @@ import { API } from '../constants/api';
 import { ExchangeData, ResultData } from '../interfaces/exchange';
 import { ApiService } from './api.service';
 import { Subscription } from '../interfaces/subscription';
+import { UserForExchange } from '../interfaces/user';
 import { User, UserAdmin } from '../interfaces/user';
 import { CoinForAdmin } from '../interfaces/coin';
 
@@ -36,120 +37,34 @@ export class ExchangeService extends ApiService {
     return data;
   }
 
-  async GetSubscription(): Promise<Subscription> {
-    if (this.auth.subscription) {
-      return this.auth.subscription;
-    }
-
-    const url = API + 'User/Get-Subscription';
-    const token = this.auth.token;
-
-    if (!token) {
-      throw new Error('not autorized');
-    }
-
-    const RequestOptions: RequestInit = {
+  async getSub() {
+    const res = await fetch(API + 'User/Get-Subscription', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+        Authorization: 'Bearer ' + this.auth.token,
       },
-    };
-
-    const res = await fetch(url, RequestOptions);
-    console.log('Serching Subscription', res);
-
-    if (res.status === 401) {
-      this.auth.logOut();
-      throw new Error('not autorized');
+    });
+    if (!res.ok) {
+      throw new Error('Unauthorized');
     }
-
-    const data = await res.json();
-    console.log(data);
-
-    this.auth.subscription = data;
-
-    return data;
+    const response = await res.text();
+    return response;
   }
 
-  async GetLoggedUser(): Promise<User> {
-    if (this.auth.user) {
-      return this.auth.user;
-    }
-
-    const url = API + 'User/Get-Logged-User';
-    const token = this.auth.token;
-
-    if (!token) {
-      throw new Error('not autorized');
-    }
-
-    const RequestOptions: RequestInit = {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    };
-
-    const res = await fetch(url, RequestOptions);
-
-    if (res.status === 401) {
-      this.auth.logOut();
-      throw new Error('not autorized');
-    }
-
-    const data = await res.json();
-
-    this.auth.user = data;
-
-    return data;
-  }
-
-  async GetCoins() {
-    if (this.auth.coins) {
-      return this.auth.coins;
-    }
-    const url = API + 'Coin/GetCoinList';
-    const token = this.auth.token;
-
-    const RequestOptions: RequestInit = {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    };
-
-    const res = await fetch(url, RequestOptions);
-    console.log('SerchingCoins', res);
-
-    const data = await res.json();
-
-    console.log(data);
-
-    this.auth.coins = data;
-
-    return data;
-  }
   async ChangeSubscription(id: number): Promise<User> {
-    const url = API + 'User/Change-Subscription?idSubs=' + id;
-    const token = this.auth.token;
-
-    const RequestOptions: RequestInit = {
+    const res = await fetch(API + 'User/Change-Subscription?idSubs=', {
       method: 'PUT',
       headers: {
-        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+        Authorization: 'Bearer ' + this.auth.token(),
       },
-    };
-
-    const res = await fetch(url, RequestOptions);
-    console.log('Changing Subscription', res);
-
-    const data = await res.json();
-    console.log(data);
-
-    this.auth.subscription = data.subscription;
-
+      body: JSON.stringify(id),
+    });
+    const data: User = await res.json();
     return data;
   }
+
   async GetUsersForAdmin(): Promise<UserAdmin[]> {
     if (this.cachedUsersForAdmin) {
       return this.cachedUsersForAdmin;
@@ -184,5 +99,30 @@ export class ExchangeService extends ApiService {
 
     this.cachedCoinsForAdmin = data;
     return data;
+  }
+
+  async GetLoggedUser() {
+    const res = await this.getAuth('User/Get-Logged-User');
+    const resJson = await res.json();
+
+    const role = resJson.role;
+    return role;
+
+    const tries = resJson.trys;
+    return tries;
+  }
+
+  async isAdmin() {
+    try {
+      const role = await this.GetLoggedUser(); // Get the role from the previous method
+      if (role === 'ADMIN') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al verificar el rol de administrador:', error);
+      return false;
+    }
   }
 }

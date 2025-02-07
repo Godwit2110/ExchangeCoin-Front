@@ -34,6 +34,6 @@ export interface LoginData {
   password: string;
 }
 
-export interface Admin {
+export interface isAdmin {
   admin: boolean;
 }

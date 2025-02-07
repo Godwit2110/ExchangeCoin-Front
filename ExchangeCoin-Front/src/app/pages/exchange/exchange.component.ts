@@ -46,7 +46,7 @@ export class ExchangeComponent implements OnInit {
 
   ngOnInit(): void {
     Promise.all([
-      this.ExchangeService.GetSubscription(),
+      this.ExchangeService.getSub(),
       this.ExchangeService.GetLoggedUser(),
     ]).then(([value, User]) => {
       if (value) {
