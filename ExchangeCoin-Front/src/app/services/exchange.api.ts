@@ -11,29 +11,16 @@ import { CoinForAdmin } from '../interfaces/coin';
   providedIn: 'root',
 })
 export class ExchangeService extends ApiService {
-  private cachedUsersForAdmin: UserAdmin[] | null = null;
-  private cachedCoinsForAdmin: CoinForAdmin[] | null = null;
-
   async Exchange(ExchangeData: ExchangeData): Promise<ResultData> {
-    const url = API + 'Coin/Exchange';
-    const token = this.auth.token;
-
-    const RequestOptions: RequestInit = {
-      method: 'PUT',
+    const res = await fetch(API + 'Coin/Exchange', {
+      method: 'POST',
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + this.auth.token(),
         'Content-type': 'application/json',
       },
       body: JSON.stringify(ExchangeData),
-    };
-
-    const res = await fetch(url, RequestOptions);
-    console.log('SerchingName', res);
-
-    const data = await res.json();
-
-    console.log(data);
-
+    });
+    const data: ResultData = await res.json();
     return data;
   }
 
@@ -48,7 +35,7 @@ export class ExchangeService extends ApiService {
     if (!res.ok) {
       throw new Error('Unauthorized');
     }
-    const response = await res.text();
+    const response = await res.json();
     return response;
   }
 
@@ -65,29 +52,7 @@ export class ExchangeService extends ApiService {
     return data;
   }
 
-  async GetUsersForAdmin(): Promise<UserAdmin[]> {
-    if (this.cachedUsersForAdmin) {
-      return this.cachedUsersForAdmin;
-    }
-
-    const res = await this.getAuth('User/Get-User-For-Admin');
-
-    if (res.status === 401) {
-      this.auth.logOut();
-      throw new Error('No autorizado');
-    }
-
-    const data: UserAdmin[] = await res.json();
-
-    this.cachedUsersForAdmin = data;
-    return data;
-  }
-
   async GetCoinsForAdmin(): Promise<CoinForAdmin[]> {
-    if (this.cachedCoinsForAdmin) {
-      return this.cachedCoinsForAdmin;
-    }
-
     const res = await this.getAuth('Coin/GetCoinsForAdmin');
 
     if (res.status === 401) {
@@ -96,8 +61,6 @@ export class ExchangeService extends ApiService {
     }
 
     const data: CoinForAdmin[] = await res.json();
-
-    this.cachedCoinsForAdmin = data;
     return data;
   }
 

@@ -4,6 +4,7 @@ import { ExchangeData, ResultData } from 'src/app/interfaces/exchange';
 import { Subscription } from 'src/app/interfaces/subscription';
 import { UserForExchange } from 'src/app/interfaces/user';
 import { ExchangeService } from 'src/app/services/exchange.api';
+import { CoinService } from 'src/app/services/coin.service';
 
 @Component({
   selector: 'app-exchange',
@@ -12,6 +13,7 @@ import { ExchangeService } from 'src/app/services/exchange.api';
 })
 export class ExchangeComponent implements OnInit {
   ExchangeService = inject(ExchangeService);
+  CoinService = inject(CoinService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
 
@@ -65,7 +67,7 @@ export class ExchangeComponent implements OnInit {
       }
       console.log('trysRemaining:', this.TrysRemaining);
 
-      this.ExchangeService.GetCoins().then((list) => {
+      this.CoinService.GetCoins().then((list) => {
         this.CoinList = list.coins;
         console.log('CoinList:', this.CoinList);
       });

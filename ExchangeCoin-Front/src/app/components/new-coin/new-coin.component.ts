@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
+import { CoinService } from 'src/app/services/coin.service';
 import { CoinForAdmin } from 'src/app/interfaces/coin';
 
 @Component({
@@ -8,7 +8,7 @@ import { CoinForAdmin } from 'src/app/interfaces/coin';
   styleUrls: ['./new-coin.component.scss'],
 })
 export class NewCoinComponent {
-  ApiService = inject(ApiService);
+  CoinService = inject(CoinService);
   @Output() close = new EventEmitter();
   @Input() Coin: CoinForAdmin = {
     id: 0,
@@ -23,7 +23,7 @@ export class NewCoinComponent {
   }
 
   async updateCoin() {
-    const res = await this.ApiService.updateCoin(this.Coin);
+    const res = await this.CoinService.updateCoin(this.Coin);
     this.close.emit();
     if (res) {
       console.log('Update successful');
@@ -33,7 +33,7 @@ export class NewCoinComponent {
   }
 
   async createCoin() {
-    const res = await this.ApiService.createCoin(this.Coin);
+    const res = await this.CoinService.createCoin(this.Coin);
     this.close.emit();
     if (res) {
       console.log('Coin Added');
