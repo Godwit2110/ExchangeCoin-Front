@@ -61,5 +61,12 @@
         Change the Subscription
       </a>
     </div>
+    <button
+      class="adminbutton"
+      *ngIf="UserRole === 'ADMIN'"
+      (click)="navigateToAdminPanel()"
+    >
+      Go to Admin Panel
+    </button>
   </div>
 </div>

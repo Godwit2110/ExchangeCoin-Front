@@ -35,7 +35,7 @@ export class AuthService {
       });
       if (!res.ok) return false;
       const tokenRecibido = await res.text();
-      console.log('LOGING IN', tokenRecibido);
+      console.log('LOGING IN');
       localStorage.setItem('token', tokenRecibido);
       this.token.set(tokenRecibido);
       return true;

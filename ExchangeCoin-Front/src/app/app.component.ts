@@ -15,20 +15,16 @@ export class AppComponent {
   ExchangeService = inject(ExchangeService);
   auth = inject(AuthService);
 
-  UserLogged: UserForExchange = {
-    username: '',
-    trys: 2,
-    role: '',
-  };
-
-  ngOnInit() {
-    this.loadLoggedUser();
-    this.router.events.subscribe(() => this.showAdminButton());
-  }
+  UserLoggedRole = '';
 
   async loadLoggedUser() {
-    const user = await this.ExchangeService.GetLoggedUser();
-    this.UserLogged = user;
+    const currentUrl = this.router.url;
+    console.log('curraasentUrlpep:', currentUrl);
+    if (currentUrl !== '/login' && currentUrl !== '/register') {
+      const user = await this.ExchangeService.GetLoggedUser();
+      this.UserLoggedRole = user.role;
+      console.log('pep:', this.UserLoggedRole);
+    }
   }
 
   showLogoutButton(): boolean {
@@ -38,15 +34,16 @@ export class AppComponent {
 
   showAdminButtonBoolean = false;
 
-  showAdminButton() {
+  async showAdminButton() {
     const currentUrl = this.router.url;
+    console.log('curraasentUrl:', currentUrl);
+    console.log('pepas:', this.UserLoggedRole);
     this.showAdminButtonBoolean =
       currentUrl !== '/login' &&
       currentUrl !== '/register' &&
-      currentUrl !== '/admin/users' &&
       currentUrl !== '/admin/coins' &&
-      this.UserLogged &&
-      this.UserLogged.role === 'ADMIN';
+      this.UserLoggedRole === 'ADMIN';
+    console.log('showAdminButtonBoolean:', this.showAdminButtonBoolean);
   }
 
   logout() {
@@ -54,6 +51,6 @@ export class AppComponent {
   }
 
   navigateToAdminPanel() {
-    this.router.navigate(['/admin/users']);
+    this.router.navigate(['/admin/coins']);
   }
 }

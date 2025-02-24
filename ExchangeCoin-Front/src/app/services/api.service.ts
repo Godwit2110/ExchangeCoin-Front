@@ -13,7 +13,7 @@ export class ApiService {
   async getAuth(endpoint: string) {
     const res = await fetch(API + endpoint, {
       headers: {
-        Authorization: 'Bearer ' + this.auth.token,
+        Authorization: 'Bearer ' + this.auth.token(),
       },
     });
     if (res.status === 401) {

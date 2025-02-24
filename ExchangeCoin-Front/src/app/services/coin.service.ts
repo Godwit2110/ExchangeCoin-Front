@@ -8,7 +8,7 @@ import { ApiService } from './api.service';
 })
 export class CoinService extends ApiService {
   async GetCoins() {
-    const res = await fetch(API + 'Coin/Get-Coins', {
+    const res = await fetch(API + 'Coin/GetCoinList', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -25,7 +25,7 @@ export class CoinService extends ApiService {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.token,
+        Authorization: 'Bearer ' + this.auth.token(),
       },
       body: JSON.stringify(coin),
     });
@@ -38,7 +38,7 @@ export class CoinService extends ApiService {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.token,
+        Authorization: 'Bearer ' + this.auth.token(),
       },
       body: JSON.stringify(coin),
     });

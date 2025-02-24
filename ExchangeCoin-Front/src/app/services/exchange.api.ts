@@ -13,7 +13,7 @@ import { CoinForAdmin } from '../interfaces/coin';
 export class ExchangeService extends ApiService {
   async Exchange(ExchangeData: ExchangeData): Promise<ResultData> {
     const res = await fetch(API + 'Coin/Exchange', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         Authorization: 'Bearer ' + this.auth.token(),
         'Content-type': 'application/json',
@@ -29,7 +29,7 @@ export class ExchangeService extends ApiService {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.token,
+        Authorization: 'Bearer ' + this.auth.token(),
       },
     });
     if (!res.ok) {
@@ -40,7 +40,7 @@ export class ExchangeService extends ApiService {
   }
 
   async ChangeSubscription(id: number): Promise<User> {
-    const res = await fetch(API + 'User/Change-Subscription?idSubs=', {
+    const res = await fetch(API + 'User/Change-Subscription?idSubs=' + id, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
@@ -64,20 +64,21 @@ export class ExchangeService extends ApiService {
     return data;
   }
 
-  async GetLoggedUser() {
+  async GetLoggedUser(): Promise<{
+    role: string;
+    trys: number;
+    username: string;
+  }> {
     const res = await this.getAuth('User/Get-Logged-User');
     const resJson = await res.json();
 
-    const role = resJson.role;
-    return role;
-
-    const tries = resJson.trys;
-    return tries;
+    const { role, trys, username } = resJson;
+    return { role, trys, username };
   }
 
   async isAdmin() {
     try {
-      const role = await this.GetLoggedUser(); // Get the role from the previous method
+      const { role } = await this.GetLoggedUser();
       if (role === 'ADMIN') {
         return true;
       } else {

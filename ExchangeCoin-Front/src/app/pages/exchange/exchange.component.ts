@@ -5,6 +5,7 @@ import { Subscription } from 'src/app/interfaces/subscription';
 import { UserForExchange } from 'src/app/interfaces/user';
 import { ExchangeService } from 'src/app/services/exchange.api';
 import { CoinService } from 'src/app/services/coin.service';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-exchange',
@@ -44,6 +45,8 @@ export class ExchangeComponent implements OnInit {
 
   TrysRemaining = 0;
 
+  UserRole = '';
+
   CoinList = [];
 
   ngOnInit(): void {
@@ -51,25 +54,18 @@ export class ExchangeComponent implements OnInit {
       this.ExchangeService.getSub(),
       this.ExchangeService.GetLoggedUser(),
     ]).then(([value, User]) => {
+      this.UserRole = User.role;
       if (value) {
         this.ActiveSubscription = value;
-        console.log('ActiveSubscription:', this.ActiveSubscription);
       }
       if (User) {
         this.UserLogged = User;
-        console.log('UserLogged:', this.UserLogged);
-      }
-      if (this.ActiveSubscription.maxTrys && this.UserLogged.trys) {
         this.TrysRemaining =
           this.ActiveSubscription.maxTrys - this.UserLogged.trys;
-      } else {
-        this.TrysRemaining = 0;
       }
-      console.log('trysRemaining:', this.TrysRemaining);
 
       this.CoinService.GetCoins().then((list) => {
         this.CoinList = list.coins;
-        console.log('CoinList:', this.CoinList);
       });
     });
   }
@@ -78,5 +74,9 @@ export class ExchangeComponent implements OnInit {
     this.ExchangeService.Exchange(this.ExchangeData).then(
       (respond) => (this.ResultData = respond)
     );
+  }
+
+  navigateToAdminPanel() {
+    this.router.navigate(['/admin/coins']);
   }
 }
