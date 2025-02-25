@@ -3,13 +3,6 @@
     <div class="div1">
       <button *ngIf="showLogoutButton()" (click)="logout()">Logout</button>
       <h1>ExchangeCoin Simulator</h1>
-      <button
-        class="div2"
-        *ngIf="showAdminButtonBoolean"
-        (click)="navigateToAdminPanel()"
-      >
-        Go to Admin Panel
-      </button>
     </div>
   </div>
 </router-outlet>

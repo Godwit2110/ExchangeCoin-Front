@@ -54,7 +54,6 @@ export class RegisterComponent {
   showAlert(message: string, type: 'success' | 'error') {
     this.alertMessage = message;
     this.alertType = type;
-    // Hide the alert after 5 seconds
     setTimeout(() => {
       this.alertMessage = '';
     }, 5000);

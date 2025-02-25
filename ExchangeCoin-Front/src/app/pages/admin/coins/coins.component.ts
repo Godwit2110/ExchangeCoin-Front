@@ -20,7 +20,6 @@ export class CoinsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       this.isAdmin = await this.ExchangeService.isAdmin();
-      console.log('Is Admin:', this.isAdmin);
 
       if (this.isAdmin === false) {
         this.router.navigate(['/exchange']);
@@ -32,7 +31,6 @@ export class CoinsComponent implements OnInit {
 
     try {
       this.coins = await this.ExchangeService.GetCoinsForAdmin();
-      console.log('Coins para Admin:', this.coins);
     } catch (error) {
       console.error('Error al obtener coins:', error);
     }

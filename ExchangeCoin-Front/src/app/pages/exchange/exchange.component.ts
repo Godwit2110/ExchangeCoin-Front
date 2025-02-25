@@ -5,7 +5,6 @@ import { Subscription } from 'src/app/interfaces/subscription';
 import { UserForExchange } from 'src/app/interfaces/user';
 import { ExchangeService } from 'src/app/services/exchange.api';
 import { CoinService } from 'src/app/services/coin.service';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-exchange',

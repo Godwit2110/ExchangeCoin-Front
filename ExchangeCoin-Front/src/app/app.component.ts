@@ -15,35 +15,9 @@ export class AppComponent {
   ExchangeService = inject(ExchangeService);
   auth = inject(AuthService);
 
-  UserLoggedRole = '';
-
-  async loadLoggedUser() {
-    const currentUrl = this.router.url;
-    console.log('curraasentUrlpep:', currentUrl);
-    if (currentUrl !== '/login' && currentUrl !== '/register') {
-      const user = await this.ExchangeService.GetLoggedUser();
-      this.UserLoggedRole = user.role;
-      console.log('pep:', this.UserLoggedRole);
-    }
-  }
-
   showLogoutButton(): boolean {
     const currentUrl = this.router.url;
     return currentUrl !== '/login' && currentUrl !== '/register';
-  }
-
-  showAdminButtonBoolean = false;
-
-  async showAdminButton() {
-    const currentUrl = this.router.url;
-    console.log('curraasentUrl:', currentUrl);
-    console.log('pepas:', this.UserLoggedRole);
-    this.showAdminButtonBoolean =
-      currentUrl !== '/login' &&
-      currentUrl !== '/register' &&
-      currentUrl !== '/admin/coins' &&
-      this.UserLoggedRole === 'ADMIN';
-    console.log('showAdminButtonBoolean:', this.showAdminButtonBoolean);
   }
 
   logout() {
