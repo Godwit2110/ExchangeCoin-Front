@@ -48,7 +48,7 @@
 
       <p *ngIf="ResultData.result === -99">Error, No tries available</p>
       <p *ngIf="ResultData.result !== -99">
-        The Result is: {{ ResultData.result | currency }}
+        The Result is: {{ ResultData.result | number : "1.0-10" }}
       </p>
     </form>
     <div class="remain-box">

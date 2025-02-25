@@ -1,10 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { API } from '../constants/api';
 import { ExchangeData, ResultData } from '../interfaces/exchange';
 import { ApiService } from './api.service';
-import { Subscription } from '../interfaces/subscription';
-import { UserForExchange } from '../interfaces/user';
-import { User, UserAdmin } from '../interfaces/user';
+import { User } from '../interfaces/user';
 import { CoinForAdmin } from '../interfaces/coin';
 
 @Injectable({
