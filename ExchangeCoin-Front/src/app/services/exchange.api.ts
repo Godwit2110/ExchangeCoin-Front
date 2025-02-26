@@ -9,6 +9,9 @@ import { CoinForAdmin } from '../interfaces/coin';
   providedIn: 'root',
 })
 export class ExchangeService extends ApiService {
+  private cacheKeySub = 'Get-Subscription';
+  private cacheKeyUser = 'Get-Logged-User';
+
   async Exchange(ExchangeData: ExchangeData): Promise<ResultData> {
     const res = await fetch(API + 'Coin/Exchange', {
       method: 'PUT',
@@ -19,10 +22,15 @@ export class ExchangeService extends ApiService {
       body: JSON.stringify(ExchangeData),
     });
     const data: ResultData = await res.json();
+
     return data;
   }
 
   async getSub() {
+    const cachedData = localStorage.getItem(this.cacheKeySub);
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
     const res = await fetch(API + 'User/Get-Subscription', {
       method: 'GET',
       headers: {
@@ -34,6 +42,7 @@ export class ExchangeService extends ApiService {
       throw new Error('Unauthorized');
     }
     const response = await res.json();
+    localStorage.setItem(this.cacheKeySub, JSON.stringify(response));
     return response;
   }
 
@@ -47,6 +56,7 @@ export class ExchangeService extends ApiService {
       body: JSON.stringify(id),
     });
     const data: User = await res.json();
+    localStorage.removeItem(this.cacheKeySub);
     return data;
   }
 
@@ -67,10 +77,18 @@ export class ExchangeService extends ApiService {
     trys: number;
     username: string;
   }> {
+    const cachedData = localStorage.getItem(this.cacheKeyUser);
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
     const res = await this.getAuth('User/Get-Logged-User');
     const resJson = await res.json();
 
     const { role, trys, username } = resJson;
+    localStorage.setItem(
+      this.cacheKeyUser,
+      JSON.stringify({ role, trys, username })
+    );
     return { role, trys, username };
   }
 

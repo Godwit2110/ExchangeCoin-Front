@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { UserForExchange } from './interfaces/user';
 import { ExchangeService } from './services/exchange.api';
+import { CoinService } from './services/coin.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,9 @@ import { ExchangeService } from './services/exchange.api';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  cacheKeyCoin = 'GetCoins';
+  cacheKeySub = 'Get-Subscription';
+  cacheKeyUser = 'Get-Logged-User';
   title = 'ExchangeCoin-Front';
   router = inject(Router);
   ExchangeService = inject(ExchangeService);
@@ -22,6 +26,9 @@ export class AppComponent {
 
   logout() {
     this.auth.logOut();
+    localStorage.removeItem(this.cacheKeyCoin);
+    localStorage.removeItem(this.cacheKeySub);
+    localStorage.removeItem(this.cacheKeyUser);
   }
 
   navigateToAdminPanel() {

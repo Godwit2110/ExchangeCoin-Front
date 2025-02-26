@@ -7,7 +7,14 @@ import { ApiService } from './api.service';
   providedIn: 'root',
 })
 export class CoinService extends ApiService {
+  private cacheKeyCoin = 'GetCoins';
+
   async GetCoins() {
+    const cachedData = localStorage.getItem(this.cacheKeyCoin);
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+
     const res = await fetch(API + 'Coin/GetCoinList', {
       method: 'GET',
       headers: {
@@ -16,6 +23,7 @@ export class CoinService extends ApiService {
       },
     });
     const data = await res.json();
+    localStorage.setItem(this.cacheKeyCoin, JSON.stringify(data));
     return data;
   }
 
@@ -29,6 +37,9 @@ export class CoinService extends ApiService {
       },
       body: JSON.stringify(coin),
     });
+    if (res.ok) {
+      localStorage.removeItem(this.cacheKeyCoin);
+    }
     return res.ok;
   }
 
@@ -42,6 +53,9 @@ export class CoinService extends ApiService {
       },
       body: JSON.stringify(coin),
     });
+    if (res.ok) {
+      localStorage.removeItem(this.cacheKeyCoin);
+    }
     return res.ok;
   }
 }
